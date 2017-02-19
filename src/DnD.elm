@@ -77,7 +77,6 @@ type alias DraggableInit dropMeta dragMeta m =
     , subscriptions : Draggable dropMeta dragMeta m -> Sub m
     , draggable : dragMeta -> List (Html.Attribute m) -> List (Html m) -> Html m
     , droppable : dropMeta -> List (Html.Attribute m) -> List (Html m) -> Html m
-    , droppable_ : Draggable dropMeta dragMeta m -> dropMeta -> List (Html.Attribute m) -> List (Html m) -> Html m
     }
 
 
@@ -131,7 +130,6 @@ init wrap onDrop =
     , subscriptions = subscriptions wrap onDrop
     , draggable = draggable wrap
     , droppable = droppable wrap
-    , droppable_ = droppable_ wrap
     }
 
 
@@ -283,16 +281,6 @@ droppable wrap dropMeta attrs html =
                ]
         )
         html
-
-
-droppable_ : (Msg dropMeta dragMeta m -> m) -> Draggable dropMeta dragMeta m -> dropMeta -> List (Html.Attribute m) -> List (Html m) -> Html m
-droppable_ wrap (Draggable model) dropMeta attrs html =
-    case model of
-        Nothing ->
-            div attrs html
-
-        Just _ ->
-            droppable wrap dropMeta attrs html
 
 
 px : Int -> String
